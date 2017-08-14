@@ -291,7 +291,7 @@ for (i in 1:31){
   }
 ```
 
-![](Breast_Cancer_Detection_-_EDA___Data_Cleaning_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 Calculate & Plot Correlations:
 
@@ -301,7 +301,7 @@ corr_values<-cor(df)
 corrplot::corrplot(corr_values,method="shade",type="lower")
 ```
 
-![](Breast_Cancer_Detection_-_EDA___Data_Cleaning_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 Save Cleaned Dataframe to New File:
 
