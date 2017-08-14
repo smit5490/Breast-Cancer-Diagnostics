@@ -1,0 +1,81 @@
+---
+title: 'Breast Cancer Detection: Exploratory Analysis & Data Cleaning'
+output:
+  html_document: default
+  html_notebook: default
+---
+This R Markdown notebook contains exploratory analysis and data cleaning for breast mass data in the UCI Machine Learning Repository located [here](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic)). The analysis contained herein is not exhaustive, but provides insight into the structure and relationship of the data.
+
+The data set contains 33 columns - the first being an ID. The remaining columns are features computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. More information regarding the data can be found in the link above.
+
+The ultimate goal of this project is to produce a robust classification algorithm that can correctly identify a benign/malignant tumor based on its features.
+
+Let's first read in the dataframe from the website:
+```{r,echo=T}
+names=c('id','diagnosis','radius_mean','texture_mean','perimeter_mean','area_mean','smoothness_mean','compactness_mean','concavity_mean','concave points_mean','symmetry_mean','fractal_dimension_mean','radius_se','texture_se','perimeter_se','area_se','smoothness_se','compactness_se','concavity_se','concave points_se','symmetry_se','fractal_dimension_se','radius_worst','texture_worst','perimeter_worst','area_worst','smoothness_worst','compactness_worst','concavity_worst','concave points_worst','symmetry_worst','fractal_dimension_worst')
+
+
+df<-read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data",header=FALSE,col.names=names)
+```
+
+Explore & Summarise Data:
+```{r, echo=T}
+#Print shape of DataFrame
+dim(df)
+```
+```{r,echo=T}
+#Print datatypes of DataFrame
+str(df)
+```
+```{r,echo=T}
+#Look at first 10 rows
+head(df)
+```
+
+Produce Summary Statistics:
+```{r,echo=T}
+summary(df)
+```
+
+Calculate Number of NAs by Feature:
+```{r}
+sapply(df, function(y) sum(length(which(is.na(y)))))
+```
+
+Segment by Diagnosis and Display Means Within each Class:
+```{r}
+aggregate(.~diagnosis,df,mean)
+```
+
+Let's take a brief detour to clean up and convert our dataframe.
+```{r,echo=T}
+#First column should be removed
+df<-df[-c(1)]
+
+#Convert diagnosis to an indicator variable and set M=1
+#Helps with understanding the postive classes
+df['diagnosis']<-ifelse(df$diagnosis=='M',1,0)
+```
+
+Plot Histogram Grid:
+```{r,echo=T,fig.width=10,fig.height=15}
+#Here we'll use ggplot2 package
+library(ggplot2)
+par(mfrow=c(8,4))
+
+for (i in 1:31){
+  hist(df[,i],xlab=colnames(df)[i],main=colnames(df)[i],col="blue")
+  }
+```
+
+Calculate & Plot Correlations:
+```{r,echo=T,fig.height=10,fig.width=10}
+library(corrplot)
+corr_values<-cor(df)
+corrplot::corrplot(corr_values,method="shade",type="lower")
+```
+
+Save Cleaned Dataframe to New File:
+```{r}
+write.csv(df,"cleaned_df.csv",row.names=FALSE)
+```
