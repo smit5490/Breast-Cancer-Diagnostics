@@ -11,5 +11,12 @@ Nearly the same data science pipeline is written in R and Python to provide a si
 * Breast Cancer Detection - EDA & Data Cleaning.Rmd
 * Breast Cancer Detection - Model Training.Rmd
 
-Start with either EDA & Data Cleaning script. A cleaned dataframe is produced by these files and is used in the Model Training scripts for machine learning.
+Start with either EDA & Data Cleaning script. A cleaned dataframe (cleaned_df.csv) is produced by these files and is used in the Model Training scripts. The Model Training scripts implement four machine learning algorithms:
+
+* L1-Regularized Logistic Regression
+* L2-Regularized Logistic Regression
+* Random Forest
+* Boosted Trees
+
+The final models are stored in final_model.rds and final_model.pkl for R and Python, respectively.
 
